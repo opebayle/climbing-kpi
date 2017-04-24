@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170424190504) do
+ActiveRecord::Schema.define(version: 20170424191629) do
+
+  create_table "routes", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "grade_id"
+    t.integer  "level_id"
+    t.integer  "posx"
+    t.integer  "posy"
+    t.integer  "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "login"
