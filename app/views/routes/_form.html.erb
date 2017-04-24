@@ -15,14 +15,17 @@
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
+
   <div class="field">
-    <%= f.label :grade_id %><br>
-    <%= f.number_field :grade_id %>
+    <%= f.label :level %><br>
+    <%= select("post", "level_id", Level.all.collect {|p| [ p.name, p.id ] }, {include_blank: 'None'}) %>
   </div>
+
   <div class="field">
-    <%= f.label :level_id %><br>
-    <%= f.number_field :level_id %>
+    <%= f.label :grade %><br>
+    <%= select("post", "grade_id", Grade.all.collect {|p| [ p.name, p.id ] }, {include_blank: 'None'}) %>
   </div>
+
   <div class="field">
     <%= f.label :posx %><br>
     <%= f.number_field :posx %>
