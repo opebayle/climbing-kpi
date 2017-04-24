@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  grade_id: 1
+  level_id: 1
+  posx: 1
+  posy: 1
+  score: 1
+
+two:
+  name: MyString
+  grade_id: 1
+  level_id: 1
+  posx: 1
+  posy: 1
+  score: 1
