@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :checks
   resources :levels
   resources :grades
   resources :routes
