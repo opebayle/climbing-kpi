@@ -18,12 +18,12 @@
 
   <div class="field">
     <%= f.label :level %><br>
-    <%= select("post", "level_id", Level.all.collect {|p| [ p.name, p.id ] }, {include_blank: 'None'}) %>
+    <%= collection_select(:route, :level_id, Level.all, :id, :name, {include_blank: 'None'}) %>
   </div>
 
   <div class="field">
     <%= f.label :grade %><br>
-    <%= select("post", "grade_id", Grade.all.collect {|p| [ p.name, p.id ] }, {include_blank: 'None'}) %>
+    <%= collection_select(:route, :grade_id, Grade.all, :id, :name, {include_blank: 'None'}) %>
   </div>
 
   <div class="field">

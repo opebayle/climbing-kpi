@@ -19,8 +19,8 @@
     <% @routes.each do |route| %>
       <tr>
         <td><%= route.name %></td>
-        <td><%= route.grade_id %></td>
-        <td><%= route.level_id %></td>
+        <td><%= Grade.find(route.grade_id).name %></td>
+        <td><%= Level.find(route.level_id).name %></td>
         <td><%= route.posx %></td>
         <td><%= route.posy %></td>
         <td><%= route.score %></td>

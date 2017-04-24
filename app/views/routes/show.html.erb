@@ -7,12 +7,12 @@
 
 <p>
   <strong>Grade:</strong>
-  <%= @route.grade_id %>
+  <%= Grade.find(@route.grade_id).name %>
 </p>
 
 <p>
   <strong>Level:</strong>
-  <%= @route.level_id %>
+  <%= Level.find(@route.level_id).name %>
 </p>
 
 <p>
