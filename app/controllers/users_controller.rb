@@ -61,6 +61,40 @@ class UsersController < ApplicationController
     end
   end
 
+  def home
+  end
+
+  def login
+  end
+
+  def logout
+    session[:user_id] = nil
+    flash[:info] = "Vous êtes maintenant déconnecté"
+    redirect_to "/home"
+  end
+
+  def check
+    @current_user = User.where(login: params[:login], password: params[:password]).first
+    if @current_user
+      session[:user_id] = @current_user.id
+      flash[:info] = "Vous êtes maintenant connecté"
+      redirect_to "/users/#{@current_user.id}"
+    else
+      session[:user_id] = nil
+      flash[:info] = "Échec de la connexion"
+      redirect_to "/login"
+    end
+  end
+
+  def index
+    if @current_user.try(:role) != "admin"
+      flash[:error] = "Accès interdit"
+      return redirect_to request.referrer || root_path
+    end
+
+    @user = User.all
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -71,4 +105,5 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:login, :role, :email, :password)
     end
+
 end

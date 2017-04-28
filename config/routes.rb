@@ -4,6 +4,13 @@ Rails.application.routes.draw do
   resources :grades
   resources :routes
   resources :users
+
+  root              'users#home'
+  get  'home'    => 'users#home'
+  get  'login'   => 'users#login'
+  post 'login'   => 'users#check'
+  get  'logout'  => 'users#logout'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
