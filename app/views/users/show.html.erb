@@ -15,18 +15,19 @@
   <%= @user.email %>
 </p>
 
-<p>
-  <strong>Password:</strong>
-  <%= @user.password %>
-</p>
-
 <p>Liste des voies réalisées:</p>
-<ul>
-  <% @user.routes.each do |route| %>
-    <li><%= route.name %></li>
-  <% end %>
-</ul>
+<table>
+  <tbody>
+    <% @user.routes.each do |route| %>
+      <tr>
+        <td><%= link_to route.name, route %></td>
+        <td><%= Level.find(route.level_id).name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
+<br>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

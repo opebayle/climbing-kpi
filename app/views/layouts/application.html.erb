@@ -8,6 +8,19 @@
 </head>
 <body>
 
+<% if @current_user %>
+  <% if @current_user.role == "admin" %><% end %>
+  <p>
+    <%= @current_user.login %>
+    <a href="/logout"> Se déconnecter</a>
+  </p>
+
+<% else %>
+  <p>
+    <a href="/login">S'identifier</a>
+  </p>
+<% end %>
+
 <%= yield %>
 
 </body>

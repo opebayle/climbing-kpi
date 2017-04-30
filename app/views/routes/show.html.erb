@@ -1,6 +1,15 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <% if Check.find_by user_id: @current_user.id, route_id: @route.id %>
+  
+    Checked !!!
+  <% else %>
+    Not Checked :(
+  <% end %>
+</p>
+
+<p>
   <strong>Name:</strong>
   <%= @route.name %>
 </p>
