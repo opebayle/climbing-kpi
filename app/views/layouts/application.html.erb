@@ -1,27 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Ibex</title>
+  <title>Kpi</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<% if @current_user %>
-  <% if @current_user.role == "admin" %><% end %>
-  <p>
-    <%= @current_user.login %>
-    <a href="/logout"> Se déconnecter</a>
-  </p>
+<body data-controller-name="<%= controller_name %>" data-action-name="<%= action_name %>" >
+  
+<% favicon_link_tag 'Block.png', rel: 'apple-touch-icon', type: 'image/png' %>
+  <div class="ui tiny fixed compact inverted main menu blue">
+      <%if @current_user %>
+        <a href="/users/<%= @current_user.id %>" class="item">
+      <% else %>
+        <a href="#" class="item">
+      <%end%>
+        <%= semantic_icon(:"home") %>
+        Kpi
+      </a>
+      <a href="/routes" class="item">
+        <%= semantic_icon(:"cubes") %>
+        Salle
+      </a>
+      <a href="/users" class="item">
+        <%= semantic_icon(:"trophy") %>
+        Classement
+      </a>
+      <a href="#" class="item">
+        <%= semantic_icon(:"pie chart") %>
+        Stats
+      </a>
+     <div class="right menu">
+        <% if @current_user %>
+          <div class="ui simple dropdown item">
+            <%= semantic_icon(:"user") %>
+            <%= @current_user.login %>
+            <%= semantic_icon(:"dropdown") %>
+            <div class="menu">
+              <a class="item">
+                <%= semantic_icon(:configure) %>
+                Configuration
+              </a>
+              <a class="item" href="/logout">
+                <%= semantic_icon(:"sign out") %>
+                Logout
+              </a>
+            </div>
+          <% else %>
+            <a href="/login" class="item">
+              <%= semantic_icon(:"sign in") %>
+              login
+            </a>
+            <a href="/users/new" class="item">
+              <%= semantic_icon(:"write") %>
+              sign up
+            </a>
+          <% end %>
+        </div>
+      </div>
+    </div>
 
-<% else %>
-  <p>
-    <a href="/login">S'identifier</a>
-  </p>
-<% end %>
-
-<%= yield %>
-
+    <div class="ui container">
+      <br/>
+      <br/>
+      <%= semantic_flash %>
+      <%= yield %>
+    </div>
 </body>
 </html>
+
+

@@ -1,44 +1,54 @@
-<%= form_for(@route) do |f| %>
-  <% if @route.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@route.errors.count, "error") %> prohibited this route from being saved:</h2>
+<div class="ui grid stackable">
+  <div class="row"></div>
+  <div class="eight wide column">
+    <%= form_for(@route) do |f| %>
 
-      <ul>
-      <% @route.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+        <% if @route.errors.any? %>
+          <div class="extra content">
+            <div id="error_explanation" class="ui error message">
+              <h3><%= pluralize(@route.errors.count, "error") %> prohibited this route from being saved:</h3>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+              <ul>
+                <% @route.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+
+      <div class="ui form segment" >
+
+        <div class="ui field">
+          <label> <%= f.label :name %> </label>
+          <%= f.text_field :name, placeholder: :name %>
+        </div>
+        <div class="ui field">
+          <label> <%= f.label :posx %> </label>
+          <%= f.number_field(:posx, id: "posx") %>
+        </div>
+
+        <div class="ui field">
+          <label> <%= f.label :posy %> </label>
+          <%= f.number_field(:posy, id: "posy") %>
+        </div>
+
+        <div class="ui field">
+          <label> <%= f.label :level %>*</field>
+            <%= collection_select(:route, :level_id, Level.all, :id, :name,  {:include_blank => ''}, {:class =>'ui dropdown selection'}) %>
+        </div>
+
+        <div class="extra content">
+          <div>
+            <button type="submit" class="ui primary button">ok</button>
+          </div>
+        </div>
+
+     </div>
   </div>
 
-  <div class="field">
-    <%= f.label :level %><br>
-    <%= collection_select(:route, :level_id, Level.all, :id, :name, {include_blank: 'None'}) %>
+  <div class="height wide column">
+    <%= render partial:"routes/map", locals:{current_user:@current_user} %>
   </div>
-
-  <div class="field">
-    <%= f.label :grade %><br>
-    <%= collection_select(:route, :grade_id, Grade.all, :id, :name, {include_blank: 'None'}) %>
-  </div>
-
-  <div class="field">
-    <%= f.label :posx %><br>
-    <%= f.number_field :posx %>
-  </div>
-  <div class="field">
-    <%= f.label :posy %><br>
-    <%= f.number_field :posy %>
-  </div>
-  <div class="field">
-    <%= f.label :score %><br>
-    <%= f.number_field :score %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>
+<%end%>

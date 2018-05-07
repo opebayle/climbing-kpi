@@ -14,11 +14,20 @@ class ChecksController < ApplicationController
 
   # GET /checks/new
   def new
-    @check = Check.new
+    @check = Check.new(:user_id => params[:user], :route_id => params[:route] )
+
+    @checks = Check.all
+    if(params[:user] != nil and  params[:route] != nil)
+      @check.save
+      redirect_to :back
+    end
+
+
   end
 
   # GET /checks/1/edit
   def edit
+    @checks = Check.all
   end
 
   # POST /checks
@@ -56,7 +65,7 @@ class ChecksController < ApplicationController
   def destroy
     @check.destroy
     respond_to do |format|
-      format.html { redirect_to checks_url, notice: 'Check was successfully destroyed.' }
+      format.html { redirect_to :back }
       format.json { head :no_content }
     end
   end

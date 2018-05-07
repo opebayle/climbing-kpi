@@ -1,33 +1,48 @@
-<%= form_for(@user) do |f| %>
+<div class="ui middle aligned center aligned grid">
+
   <% if @user.errors.any? %>
-    <div id="error_explanation">
+    <div id="error_explanation" class="ui error message">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
       <ul>
-      <% @user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :login %><br>
-    <%= f.text_field :login %>
+
+
+
+  <div class="six wide column">
+    <%= form_for(@user) do |f| %>
+      <div class="ui large form segment">
+
+        <h4 class="ui dividing header"> <%= title %> </h4>
+
+        <div class="field">
+          <%= f.text_field :login, placeholder: :login %>
+        </div>
+        <div class="field">
+          <%= f.text_field :email, placeholder: "email@mail.com" %>
+        </div>
+        <div class="field">
+          <%= f.password_field :password, placeholder: :password %>
+        </div>
+        <% if @current_user && @current_user.role == "admin" %>
+          <div class="field">
+            <%= f.select :role, options_for_select([ ["Climber", "climber"],
+                                                     ["Route setter", "route setter"],
+                                                     ["Admin", "admin"]])  %>
+        </div>
+      <% end %>
+      <div class="actions">
+        <button type="submit" class="ui fluid submit primary button">ok</button>
+      </div>
+
+      </div>
+    <% end %>
+
   </div>
-  <div class="field">
-    <%= f.label :role %><br>
-    <%= f.text_field :role %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br>
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :password %><br>
-    <%= f.text_field :password %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>

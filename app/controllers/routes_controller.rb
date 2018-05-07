@@ -15,10 +15,12 @@ class RoutesController < ApplicationController
   # GET /routes/new
   def new
     @route = Route.new
+    @routes = Route.all
   end
 
   # GET /routes/1/edit
   def edit
+    @routes = Route.all
   end
 
   # POST /routes
@@ -69,6 +71,6 @@ class RoutesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def route_params
-      params.require(:route).permit(:name, :grade_id, :level_id, :posx, :posy, :score)
+      params.require(:route).permit(:name, :level_id, :posx, :posy, :score)
     end
 end

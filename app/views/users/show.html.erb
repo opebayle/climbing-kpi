@@ -1,33 +1,92 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Login:</strong>
-  <%= @user.login %>
-</p>
+<div class="ui grid">
+  <div class="eight wide column">
+    <div class="ui card">
+      <div class="content">
+        <% if(@current_user) %>
+          <%if(@current_user == @user || @current_user.role == "admin") %>
+            <span class="right floated">
+              <%= link_to('<i class="edit outline icon"></i>'.html_safe, edit_user_path(@user)) %>
+            </span>
+          <% end %>
+        <% end %>
+        <div class="header">
+          <%= @user.login %>
+        </div>
 
-<p>
-  <strong>Role:</strong>
-  <%= @user.role %>
-</p>
+        <div class="meta">
+          <%= @user.email %>
+          </br>
+          <%= @user.role %>
+        </div>
+      </div>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+      <% score = 0 %>
+      <% @user.routes.each do |route| %>
+        <% route_score = route.score/(Check.where(route_id: route.id).count + 1) %>
+        <% score = score + route_score%>
+      <% end %>
 
-<p>Liste des voies réalisées:</p>
-<table>
-  <tbody>
-    <% @user.routes.each do |route| %>
-      <tr>
-        <td><%= link_to route.name, route %></td>
-        <td><%= Level.find(route.level_id).name %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <div class="extra content">
+        <div class="ui  statistics">
+          <div class="statistic">
+            <div class="value">
+              <% ranking = get_ranking %>
+              <%if ranking == 1 %>
+                <i class="yellow trophy icon"></i>
+                <% sup="st" %>
+              <%elsif ranking == 2 %>
+                <i class="grey trophy icon"></i>
+                <% sup="nd" %>
+              <%elsif ranking == 3 %>
+                <i class="brown trophy icon"></i>
+                <% sup="rd" %>
+              <%else%>
+                <% sup="th" %>
+              <%end%>
+              <%= ranking %><sup style="text-transform: lowercase"><%= sup %></sup>
+            </div>
+          </div>
 
-<br>
+       </div>
+       <div class="value">
+         <%= score %> pts
+       </div>
+      </div>
+      <% Level.find_each do |level| %>
+        <div class="content">
+          <div class="ui <%= level.color %> ribbon label"><%= level.name %>
+        </div>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+        <% nb_user_checks = Check.where(user_id: @user, route_id: Route.where(level_id: level)).count  %>
+        <% nb_routes      = Route.where(level_id: level).count %>
+        <div class="meta">
+          <%= nb_user_checks %> / <%= nb_routes %>
+        </div>
+
+        <div class="extra content right floated">
+          <div class="ui <%= level.color %> mini statistics">
+            <div class="statistic">
+              <div class="value">
+                <% if ( nb_routes != 0) %>
+                  <%= (nb_user_checks*100/nb_routes) %> %
+                <% else %>
+                  --- %
+                <%end%>
+                <i class="grey pie chart icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      <%end%>
+    </div>
+  </div>
+
+  <div class="eight wide column">
+    <%= render partial:"routes/map", locals:{current_user:@user} %>
+  </div>
+</div>
+
+

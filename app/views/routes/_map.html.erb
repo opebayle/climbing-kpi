@@ -1,0 +1,68 @@
+<%if false%>
+<div class="row"/>
+    <select class="ui dropdown" onchange="location = this.value;">
+      <option selected disabled>Filtre</option>
+      <option value="routes">Toutes</option>
+      <% Level.all.each do |level| %>
+        <option value="routes?level=<%= level.id %>">[<%= level.id %>] <%=level.name %></option>
+      <% end %>
+    </select>
+</div>
+<%end%>
+ <div  class="image" id="map" style="position: relative; width:572px; height:495px;">
+<!--   <div  class="image" id="map" style="position: relative; width:290px; height:246px;">-->
+      <%= image_tag("arkose.png", :align=> "middle") %>
+
+      <% if params[:level] != nil %>
+        <% list = Route.where(:level_id => params[:level]) %>
+      <% else %>
+        <% list = Route.all %>
+      <% end %>
+
+      <% if list %>
+        <% list.each do |route| %>
+          <div data-inverted=""
+               data-tooltip="[<%= Level.find(route.level_id).name %>] <%= route.name %>"
+               style="position: absolute; top:<%= route.posx %>%; left: <%= route.posy %>%">
+               <% if current_user %>
+                 <% check = Check.find_by(user_id: current_user.id, route_id: route.id) %>
+                 <%if check %>
+                   <% if  @route && route.id == @route.id %>
+                     <a href="/checks/<%= check.id %>" data-confirm="Are you sure ?" data-method="delete">
+                       <i class="check circle icon big" style="color:<%= Level.find(route.level_id).color %>"></i>
+                     </a>
+                   <%else%>
+                       <%if @current_user && @current_user == current_user %>
+                         <a href="/checks/<%= check.id %>" data-confirm="Are you sure ?" data-method="delete">
+                       <% end %>
+                           <i class="check square icon " style="color:<%= Level.find(route.level_id).color %>"></i>
+                       <%if @current_user && @current_user == current_user %>
+                         </a>
+                       <% end %>
+                   <%end%>
+                 <% else %>
+                   <% if @route && route.id == @route.id %>
+                     <a href="/checks/new?user=<%= current_user.id %>;route=<%= route.id %>" >
+                       <i class="circle icon big" style="color:<%= Level.find(route.level_id).color %>"></i>
+                     </a>
+                   <%else%>
+                     <%if @current_user && @current_user == current_user %>
+                       <a href="/checks/new?user=<%= current_user.id %>;route=<%= route.id %>" >
+                     <%end%>
+                         <i class="square icon " style="color:<%= Level.find(route.level_id).color %>"></i>
+                     <%if @current_user && @current_user == current_user %>
+                       </a>
+                     <%end%>
+                   <% end %>
+                 <% end %>
+               <% else %>
+                 <% if @route && route.id == @route.id %>
+                   <i class="circle icon big" style="color:<%= Level.find(route.level_id).color %>"></i>
+                 <%else%>
+                   <i class="square icon " style="color:<%= Level.find(route.level_id).color %>"></i>
+                 <% end %>
+               <% end %>
+          </div>
+        <%end%>
+      <% end %>
+</div>

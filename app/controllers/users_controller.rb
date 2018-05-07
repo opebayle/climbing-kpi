@@ -1,10 +1,38 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+  helper_method :get_ranking
+  helper_method :get_global_ranking
+
+  def get_global_ranking
+    h = Hash.new
+    User.all.each do |user|
+      score = 0
+      user.routes.each do |route|
+        score += route.score / (Check.where(route_id: route.id).count+1)
+      end
+      h[user.login] = score
+    end
+    h = h.sort_by {|_key, value| value}.reverse
+    return h
+  end
+
+  def get_ranking
+    h = get_global_ranking
+    ranking = h.find_index{|_key, value| _key==@user.login} + 1
+    return ranking
+  end
+
   # GET /users
   # GET /users.json
   def index
     @users = User.all
+#    if @current_user.try(:role) != "admin"
+#      flash[:error] = "Accès interdit"
+#      return redirect_to request.referrer || root_path
+#    end
+
+    @user = User.all
   end
 
   # GET /users/1
@@ -78,21 +106,12 @@ class UsersController < ApplicationController
     if @current_user
       session[:user_id] = @current_user.id
       flash[:info] = "Vous êtes maintenant connecté"
-      redirect_to "/users/#{@current_user.id}"
+      redirect_to "/home"
     else
       session[:user_id] = nil
-      flash[:info] = "Échec de la connexion"
+      flash[:error] = "Échec de la connexion"
       redirect_to "/login"
     end
-  end
-
-  def index
-    if @current_user.try(:role) != "admin"
-      flash[:error] = "Accès interdit"
-      return redirect_to request.referrer || root_path
-    end
-
-    @user = User.all
   end
 
   private

@@ -1,43 +1,54 @@
-<p id="notice"><%= notice %></p>
+<div class="ui grid">
+  <div class="row"> </div>
+  <div class="eight wide column ">
 
-<p>
-  <% if Check.find_by user_id: @current_user.id, route_id: @route.id %>
-  
-    Checked !!!
-  <% else %>
-    Not Checked :(
-  <% end %>
-</p>
+    <div class="ui centered  card">
 
-<p>
-  <strong>Name:</strong>
-  <%= @route.name %>
-</p>
+      <div class="content">
+        <% if @current_user %> 
+          <% if Check.find_by(user_id: @current_user.id, route_id: @route.id)%>
+            <i class="right floated huge green checkmark box icon"></i>
+          <% end %>
+        <% end %>
 
-<p>
-  <strong>Grade:</strong>
-  <%= Grade.find(@route.grade_id).name %>
-</p>
+        <a class="header">
+          <%= @route.name %>
+        </a>
 
-<p>
-  <strong>Level:</strong>
-  <%= Level.find(@route.level_id).name %>
-</p>
+        <% if @route.level_id != nil %>
+          <a class="ui <%= Level.find(@route.level_id).color %> ribbon label"><%= Level.find(@route.level_id).name %></a>
+        <% end %>
+        <div class="meta">
+        </div>
 
-<p>
-  <strong>Posx:</strong>
-  <%= @route.posx %>
-</p>
+        <div class="ui statistic">
+          <div class="value"><%= @route.score / (Check.where(route_id: @route.id).count + 1)  %></div>
+          <div class="label">Points </div>
+        </div>
+      </div>
 
-<p>
-  <strong>Posy:</strong>
-  <%= @route.posy %>
-</p>
+      <div class="extra content">
+        <div class="statistic">
+          <div class="value"><i class="green checkmark icon"></i><%= Check.where(route_id: @route.id).count %></div>
+          <div class="label">Checks </div>
+        </div>
+      </div>
 
-<p>
-  <strong>Score:</strong>
-  <%= @route.score %>
-</p>
+      <div class="extra content">
+          <%= distance_of_time_in_words(Time.now,@route.created_at) %>
+          <% if @current_user %>
+            <% if @current_user.role == "admin" || @current_user.role = "route setter" %> 
+              <span class="right floated">
+                <%= link_to('<i class="edit outline icon"></i>'.html_safe, edit_route_path(@route))%>
+              </span>
+            <%end%>
+          <%end%>
+     </div>
+    </div>
+  </div>
 
-<%= link_to 'Edit', edit_route_path(@route) %> |
-<%= link_to 'Back', routes_path %>
+  <div class="eight wide column ">
+    <%= render partial:"routes/map", locals:{current_user:@current_user} %>
+  </div>
+</div>
+
