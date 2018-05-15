@@ -52,6 +52,8 @@ group :development do
   gem 'sqlite3'
 end
 
+  gem 'pg'
+
 group :production do
   gem 'pg'
 end
