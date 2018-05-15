@@ -7,7 +7,7 @@
         <% if(@current_user) %>
           <%if(@current_user == @user || @current_user.role == "admin") %>
             <span class="right floated">
-              <%= link_to('<i class="edit outline icon"></i>'.html_safe, edit_user_path(@user)) %>
+              <%= link_to('<i class="edit icon"></i>'.html_safe, edit_user_path(@user)) %>
             </span>
           <% end %>
         <% end %>
