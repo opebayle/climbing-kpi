@@ -14,15 +14,15 @@ class ChecksController < ApplicationController
 
   # GET /checks/new
   def new
-    @check = Check.new(:user_id => params[:user], :route_id => params[:route] )
+    if(Check.where(:user_id => params[:user], :route_id => params[:route] ).count == 0)
+      @check = Check.new(:user_id => params[:user], :route_id => params[:route] )
 
-    @checks = Check.all
-    if(params[:user] != nil and  params[:route] != nil)
-      @check.save
-      redirect_to :back
+      @checks = Check.all
+      if(params[:user] != nil and  params[:route] != nil)
+        @check.save
+        redirect_to :back
+      end
     end
-
-
   end
 
   # GET /checks/1/edit
