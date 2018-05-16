@@ -39,11 +39,40 @@
           <% if @current_user %>
             <% if @current_user.role == "admin" || @current_user.role = "route setter" %> 
               <span class="right floated">
-                <%= link_to('<i class="edit icon"></i>'.html_safe, edit_route_path(@route))%>
+                <%= link_to('<i class="edit outline icon"></i>'.html_safe, edit_route_path(@route))%>
               </span>
             <%end%>
           <%end%>
-     </div>
+      </div>
+
+      <div class="extra content">
+
+        <table class="ui striped table very compact" >
+          <thead>
+            <tr class="center aligned">
+              <th>Date</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% Check.where(route_id: @route.id).each do |check| %>
+              <tr>
+                <td class="center aligned">
+                  <%= check.created_at.strftime('%c') %>
+                </td>
+                <td class="">
+                  <%= user = User.where(id: check.user_id).first.login %>
+                </td>
+              </tr>
+            <%end%>
+          </tbody>
+
+        </table>
+
+      </div>
+
+
     </div>
   </div>
 

@@ -9,7 +9,9 @@ class UsersController < ApplicationController
     User.all.each do |user|
       score = 0
       user.routes.each do |route|
-        score += route.score / (Check.where(route_id: route.id).count+1)
+        if (route.archive == false)
+          score += route.score / (Check.where(route_id: route.id).count+1)
+        end
       end
       h[user.login] = score
     end
@@ -20,7 +22,7 @@ class UsersController < ApplicationController
   def get_ranking
     h = get_global_ranking
     ranking = h.find_index{|_key, value| _key==@user.login} + 1
-    return ranking
+    return ranking, h.find{|_key, value| _key==@user.login}
   end
 
   # GET /users

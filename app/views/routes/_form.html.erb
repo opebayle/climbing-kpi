@@ -37,6 +37,11 @@
           <label> <%= f.label :level %>*</field>
             <%= collection_select(:route, :level_id, Level.all, :id, :name,  {:include_blank => ''}, {:class =>'ui dropdown selection'}) %>
         </div>
+        <div class="ui field">
+          <label> <%= f.label :archive %></field>
+            <%= f.check_box(:archive, {class:"ui checkbox"}, "t", "f")  %>
+         </div>
+
 
         <div class="extra content">
           <div>

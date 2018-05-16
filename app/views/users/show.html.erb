@@ -7,7 +7,7 @@
         <% if(@current_user) %>
           <%if(@current_user == @user || @current_user.role == "admin") %>
             <span class="right floated">
-              <%= link_to('<i class="edit icon"></i>'.html_safe, edit_user_path(@user)) %>
+              <%= link_to('<i class="edit outline icon"></i>'.html_safe, edit_user_path(@user)) %>
             </span>
           <% end %>
         <% end %>
@@ -21,7 +21,6 @@
           <%= @user.role %>
         </div>
       </div>
-
       <% score = 0 %>
       <% @user.routes.each do |route| %>
         <% route_score = route.score/(Check.where(route_id: route.id).count + 1) %>
@@ -33,25 +32,23 @@
           <div class="statistic">
             <div class="value">
               <% ranking = get_ranking %>
-              <%if ranking == 1 %>
+              <%if ranking[0] == 1 %>
                 <i class="yellow trophy icon"></i>
-                <% sup="st" %>
-              <%elsif ranking == 2 %>
+              <%elsif ranking[0] == 2 %>
                 <i class="grey trophy icon"></i>
-                <% sup="nd" %>
-              <%elsif ranking == 3 %>
+              <%elsif ranking[0] == 3 %>
                 <i class="brown trophy icon"></i>
-                <% sup="rd" %>
-              <%else%>
-                <% sup="th" %>
               <%end%>
-              <%= ranking %><sup style="text-transform: lowercase"><%= sup %></sup>
+               #<%= ranking[0] %>
             </div>
           </div>
 
        </div>
-       <div class="value">
-         <%= score %> pts
+       <div class="ui label">
+         Score
+         <div class="detail">
+           <%= ranking[1][1] %> pts
+         </div>
        </div>
       </div>
       <% Level.find_each do |level| %>
@@ -59,8 +56,8 @@
           <div class="ui <%= level.color %> ribbon label"><%= level.name %>
         </div>
 
-        <% nb_user_checks = Check.where(user_id: @user, route_id: Route.where(level_id: level)).count  %>
-        <% nb_routes      = Route.where(level_id: level).count %>
+        <% nb_user_checks = Check.where(user_id: @user, route_id: Route.where(level_id: level, archive:false)).count  %>
+        <% nb_routes      = Route.where(level_id: level, archive: false).count %>
         <div class="meta">
           <%= nb_user_checks %> / <%= nb_routes %>
         </div>

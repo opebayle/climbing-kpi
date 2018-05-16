@@ -14,9 +14,9 @@
       <%= image_tag("arkose.png", :align=> "middle") %>
 
       <% if params[:level] != nil %>
-        <% list = Route.where(:level_id => params[:level]) %>
+        <% list = Route.where(:archive => false, :level_id => params[:level]) %>
       <% else %>
-        <% list = Route.all %>
+        <% list = Route.where(:archive => false).all %>
       <% end %>
 
       <% if list %>

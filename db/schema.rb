@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170517200445) do
+ActiveRecord::Schema.define(version: 20180503192707) do
 
   create_table "checks", force: :cascade do |t|
     t.integer  "route_id"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20170517200445) do
     t.integer  "score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "archive"
   end
 
   create_table "users", force: :cascade do |t|
