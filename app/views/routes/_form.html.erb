@@ -1,7 +1,7 @@
 <div class="ui grid stackable">
   <div class="row"></div>
   <div class="eight wide column">
-    <%= form_for(@route) do |f| %>
+    <%= form_for @route, html: {multipart: true} do |f| %>
 
         <% if @route.errors.any? %>
           <div class="extra content">
@@ -40,7 +40,12 @@
         <div class="ui field">
           <label> <%= f.label :archive %></field>
             <%= f.check_box(:archive, {class:"ui checkbox"}, "t", "f")  %>
-         </div>
+        </div>
+
+        <div class="ui field">
+          <label> <%= f.label :image %> </label>
+          <%= f.file_field :image %>
+        </div>
 
 
         <div class="extra content">

@@ -3,7 +3,6 @@
   <div class="eight wide column ">
 
     <div class="ui centered  card">
-
       <div class="content">
         <% if @current_user %> 
           <% if Check.find_by(user_id: @current_user.id, route_id: @route.id)%>
@@ -26,6 +25,10 @@
           <div class="label">Points </div>
         </div>
       </div>
+      <div class="image">
+        <%= image_tag @route.image.url(:medium) %>
+      </div>
+
 
       <div class="extra content">
         <div class="statistic">
