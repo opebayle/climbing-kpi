@@ -3,73 +3,23 @@
   <div class="row"/>
     <p id="notice"><%= notice %></p>
   </div>
-  <div class="column"/>
-    <% Level.all.each do |level| %>
-      <table class="ui striped table very compact <%=level.color%>" >
-      <thead>
-        <tr class="center aligned">
-          <th>ID</th>
-          <th>Score</th>
-          <th>Name</th>
-          <% if @current_user %>
-            <th>Check</th>
-            <% if @current_user.role == "admin" %>
-              <th></th>
-            <% end %>
-          <% end %>
-        </tr>
-      </thead>
 
-      <tbody>
-        <% @routes.where(archive: false, level_id: level.id).each do |route| %>
-          <tr>
-            <td class="center aligned">
-              <% if route.created_at > 1.day.ago %>
-                <i class="ui <%=level.color%> icon certificate"></i>
-              <%end %>
-               <%= link_to route.id, route %>
-            </td>
-            <td class="center aligned"><%= route.score / (Check.where(route_id: route.id).count + 1) %></td>
-            <td class="center aligned">
-             <%= route.name %>
-            </td>
-             <% if @current_user %>
-              <td class="center aligned">
-                <% if @current_user && Check.find_by(user_id: @current_user.id, route_id: route.id)%>
-                  <% check=Check.find_by(user_id: @current_user.id, route_id: route.id) %>
-
-                  <a href="/checks/<%= check.id %>" data-confirm="Are you sure ?" data-method="delete">
-                    <i class="green checkmark box icon"></i>
-                  </a>
-                <% elsif @current_user %>
-                  <a href="/checks/new?user=<%= @current_user.id %>;route=<%= route.id %>" >
-                    <i class="grey square outline box icon"></i>
-                  </a>
-                <% end%>
-              </td>
-              <% if @current_user.role == "admin" %>
-                <td class="center aligned">
-                  <%= link_to('<i class="edit outline icon"></i>'.html_safe, edit_route_path(route)) %>
-                  <%= link_to('<i class="trash icon"></i>'.html_safe, route,
-                                method: :delete,
-                                data: { confirm: 'Are you sure?' }) %>
-                </td>
-              <% end %>
-
-             <% end %>
-
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <% end %>
+  <div class="row"/>
+    <p id="notice"><%= notice %></p>
     <% if @current_user %>
-      <%= link_to 'New Route', new_route_path %>
+      <%= link_to '<i class="icon square plus"></i> New route'.html_safe,
+           new_route_path %>
     <% end %>
   </div>
 
-<div class="ui column">
-  <%= render partial:"routes/map", locals:{current_user:@current_user} %>
-</div>
+  <div class="column"/>
+   <!--%= render partial:"routes/list", locals:{current_user:@current_user} %-->
+  </div>
+
+  <div class="ui column">
+    <%= render partial:"routes/map",
+      locals:{current_user:@current_user,
+              editable:"false"} %>
+  </div>
 </div>
 

@@ -31,7 +31,7 @@
           <%end%>
         </td>
         <td><%=pos=pos+1%></td>
-        <td><%=user%></td>
+        <td><a href="/users/<%=User.where(login:user).first.id%>"><%=user%></a></td>
         <td><%=score%></td>
         <% if @current_user && @current_user.role == "admin" %>
           <td>

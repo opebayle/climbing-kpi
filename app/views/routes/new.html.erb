@@ -1,4 +1,21 @@
-<div class="ui stackable equal width grid">
-  <%= render 'form' %>
-</div>
+<div class="ui grid">
+  <div class="row"> </div>
 
+  <div class="row"/>
+    <% if @current_user %>
+      <%= link_to '<i class="icon square plus"></i> New route'.html_safe,
+           new_route_path %>
+    <% end %>
+  </div>
+
+
+  <div class="eight wide column ">
+    <%= render 'form' %>
+  </div>
+
+  <div class="height wide column">
+    <%=render partial:"routes/map",
+              locals:{current_user:@current_user,
+                      editable:"true"} %>
+  </div>
+</div>

@@ -82,7 +82,9 @@
   </div>
 
   <div class="eight wide column">
-    <%= render partial:"routes/map", locals:{current_user:@user} %>
+    <%= render partial:"routes/map",
+               locals:{current_user:@user,
+                      editable:"false"} %>
   </div>
 </div>
 

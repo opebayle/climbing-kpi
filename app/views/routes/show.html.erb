@@ -1,23 +1,53 @@
 <div class="ui grid">
   <div class="row"> </div>
+
+  <div class="row"/>
+    <% if @current_user %>
+      <%= link_to '<i class="icon square plus"></i> New route'.html_safe,
+           new_route_path %>
+    <% end %>
+  </div>
+
   <div class="eight wide column ">
 
     <div class="ui centered  card">
       <div class="content">
         <% if @current_user %> 
+          <% check = Check.find_by(user_id: @current_user.id, route_id: @route.id) %>
           <% if Check.find_by(user_id: @current_user.id, route_id: @route.id)%>
-            <i class="right floated huge green checkmark box icon"></i>
+            <a  href="/checks/<%= check.id %>"
+                style="color:<%= Level.find(@route.level_id).color %>"
+                data-confirm="Are you sure ?"
+                data-method="delete">
+              <i class="right floated huge checkmark box icon"></i>
+            </a>
+          <% else %>
+            <a href="/checks/new?user=<%= @current_user.id %>;route=<%= @route.id %>" >
+              <i class="right floated huge outline square icon " style="color:<%= Level.find(@route.level_id).color %>"></i>
+            </a>
           <% end %>
         <% end %>
 
-        <a class="header">
+        <div class="header">
+          #<%=@route.id%> 
           <%= @route.name %>
-        </a>
+        </div>
+        <div class="meta">
+          <%= distance_of_time_in_words(Time.now,@route.created_at) %>
+        </div>
 
         <% if @route.level_id != nil %>
           <a class="ui <%= Level.find(@route.level_id).color %> ribbon label"><%= Level.find(@route.level_id).name %></a>
         <% end %>
         <div class="meta">
+      <% if @current_user %>
+        <% if @current_user.role == "admin" || @current_user.role = "route setter" %> 
+          <span class="right floated">
+            <%= link_to('<i class="edit outline icon"></i>'.html_safe, edit_route_path(@route))%>
+          </span>
+        <%end%>
+      <%end%>
+
         </div>
 
         <div class="ui statistic">
@@ -25,6 +55,7 @@
           <div class="label">Points </div>
         </div>
       </div>
+
       <div class="image">
         <%= image_tag @route.image.url(:medium) %>
       </div>
@@ -38,21 +69,10 @@
       </div>
 
       <div class="extra content">
-          <%= distance_of_time_in_words(Time.now,@route.created_at) %>
-          <% if @current_user %>
-            <% if @current_user.role == "admin" || @current_user.role = "route setter" %> 
-              <span class="right floated">
-                <%= link_to('<i class="edit outline icon"></i>'.html_safe, edit_route_path(@route))%>
-              </span>
-            <%end%>
-          <%end%>
-      </div>
-
-      <div class="extra content">
 
         <table class="ui striped table very compact" >
           <thead>
-            <tr class="center aligned">
+            <tr class="">
               <th>Date</th>
               <th>Name</th>
             </tr>
@@ -61,8 +81,8 @@
           <tbody>
             <% Check.where(route_id: @route.id).each do |check| %>
               <tr>
-                <td class="center aligned">
-                  <%= check.created_at.strftime('%c') %>
+                <td class="right aligned">
+                  <%= distance_of_time_in_words(Time.now,check.created_at) %>
                 </td>
                 <td class="">
                   <%= user = User.where(id: check.user_id).first.login %>
@@ -79,8 +99,11 @@
     </div>
   </div>
 
-  <div class="eight wide column ">
-    <%= render partial:"routes/map", locals:{current_user:@current_user} %>
+
+  <div class="ui column">
+    <%= render partial:"routes/map",
+      locals:{current_user:@current_user,
+              editable:"false"} %>
   </div>
 </div>
 
