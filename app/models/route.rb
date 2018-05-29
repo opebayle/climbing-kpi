@@ -4,7 +4,7 @@ class Route < ActiveRecord::Base
   has_many   :checks
   has_many   :users, :through => :checks
   before_save :default_values
-  has_attached_file :image, styles: { large: "300x300>", medium: "200x200>", thumb: "50x50#" }
+  has_attached_file :image, styles: { medium: "200x200>", thumb: "50x50#", default_url:"missing.png"  }
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 
   def default_values

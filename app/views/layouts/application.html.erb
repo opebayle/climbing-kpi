@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Kpi</title>
+  <title>Climbing-Kpi</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -18,7 +18,7 @@
         <a href="#" class="item">
       <%end%>
         <%= semantic_icon(:"home") %>
-        Kpi
+        Home
       </a>
       <a href="/routes" class="item">
         <%= semantic_icon(:"cubes") %>
@@ -29,8 +29,8 @@
         Classement
       </a>
       <a href="#" class="item">
-        <%= semantic_icon(:"pie chart") %>
-        Stats
+        <%= semantic_icon(:"users") %>
+        Versus
       </a>
      <div class="right menu">
         <% if @current_user %>
