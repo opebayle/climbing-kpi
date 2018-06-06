@@ -24,6 +24,15 @@ document.addEventListener("turbolinks:load", function() {
 
   // $('table').tablesort()
 
+  $('#filter').click(function (){
+
+    versus_value = $('#versus')['0'].value
+    filtre_value = $('#filtre')['0'].value
+
+    location = '?' + filtre_value + '&' + versus_value ;
+
+  });
+
   if($("body").data().controllerName == "routes"  && ($("body").data().actionName == "edit" || $("body").data().actionName == "new")) {
     $('#map').click(function (e) { //Offset mouse Position
       var posX = $(this).offset().left + 6,

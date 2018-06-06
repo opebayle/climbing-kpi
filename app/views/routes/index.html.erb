@@ -12,13 +12,51 @@
   </div>
 
   <div class="column"/>
-   <!--%= render partial:"routes/list", locals:{current_user:@current_user} %-->
-  </div>
+    <!--%= render partial:"routes/list", locals:{current_user:@current_user} %-->
+    <div class="ui equal width grid">
+      <div class="ui row">
+        <div class="ui column">
+          <select class="ui dropdown" id="filtre">
+            <option value="" selected disabled>Filtre</option>
+            <option value="">Toutes</option>
+            <% Level.all.each do |level| %>
+              <option value="level=<%= level.id %>"> <%=level.name %></option>
+            <% end %>
+          </select>
+        </div>
+        <div class="ui column">
+          <select class="ui dropdown" id="versus">
+            <option value="" selected disabled>versus</option>
+            <option value="">Personne</option>
+            <% User.all.each do |user| %>
+              <option value="versus=<%= user.id %>"> <%=user.login%></option>
+            <% end %>
+          </select>
+        </div>
+        <div class="ui column">
+          <div>
+            <button type="submit" class="ui primary button" id="filter" >ok</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% if params[:level] != nil %>
+      <%level_id = params[:level]%>
+      <%level_name = Level.find(level_id).name%>
+      <%=level_name%>
+    <%end%>
+
+    <% if params[:versus] != nil %>
+      <%versus_user_id = params[:versus]%>
+      <%versus_user_login = User.find(versus_user_id).login%>
+      <%= @current_user.login %> vs <%= versus_user_login %>
+    <%end%>
+
+ </div>
 
   <div class="ui column">
-    <%= render partial:"routes/map",
-      locals:{current_user:@current_user,
-              editable:"false"} %>
+    <%= render partial:"routes/map", locals:{current_user:@current_user, editable:"false"} %>
   </div>
 </div>
 

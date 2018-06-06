@@ -15,22 +15,22 @@
       <%if @current_user %>
         <a href="/users/<%= @current_user.id %>" class="item">
       <% else %>
-        <a href="#" class="item">
+        <a href="home" class="item">
       <%end%>
         <%= semantic_icon(:"home") %>
         Home
       </a>
-      <a href="/routes" class="item">
-        <%= semantic_icon(:"cubes") %>
-        Salle
-      </a>
+
+      <% if @current_user %>
+        <a href="/routes" class="item">
+          <%= semantic_icon(:"users") %>
+          Versus
+        </a>
+      <%end%>
+
       <a href="/users" class="item">
         <%= semantic_icon(:"trophy") %>
         Classement
-      </a>
-      <a href="#" class="item">
-        <%= semantic_icon(:"users") %>
-        Versus
       </a>
      <div class="right menu">
         <% if @current_user %>

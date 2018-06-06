@@ -1,15 +1,3 @@
-<%if false%>
-<div class="row"/>
-  <select class="ui dropdown" onchange="location = this.value;">
-    <option selected disabled>Filtre</option>
-    <option value="routes">Toutes</option>
-    <% Level.all.each do |level| %>
-      <option value="routes?level=<%= level.id %>">[<%= level.id %>] <%=level.name %></option>
-    <% end %>
-  </select>
-</div>
-<%end%>
-
 <%map_w="572px"%>
 <%map_h="495px"%>
 
@@ -23,6 +11,11 @@
     <% list = Route.where(:archive => false).all %>
   <% end %>
 
+  <% if params[:versus] != nil %>
+    <%versus_user_id = params[:versus]%>
+    <%versus_user_login = User.find(versus_user_id).login%>
+  <%end%>
+
   <% if list %>
     <% list.each do |route| %>
       <%checked=""%>
@@ -32,21 +25,45 @@
            style="position: absolute; top:<%= route.posx %>%; left: <%= route.posy %>%">
            <% if current_user %>
              <% check = Check.find_by(user_id: current_user.id, route_id: route.id) %>
-             <%if check %>
-               <% checked="check"%>
+             <% if versus_user_id %>
+               <% check_vs = Check.find_by(user_id: versus_user_id, route_id: route.id) %>
+             <%else%>
+               <% check_vs = nil %>
+             <%end%>
+
+             <%if versus_user_id %>
+               <!-- Mode VERSUS -->
+               <%if check %>
+                 <% if check_vs %> <% checked=""%>
+                 <% else %>        <% checked="thumbs up"%>
+                 <%end%>
+               <%else%>
+                 <% if check_vs %>  <% checked="thumbs down"%>
+                 <% else %>         <% checked=""%>
+                 <%end%>
+               <% end %>
+             <%else%>
+               <!-- Mode SOLO -->
+               <%if check %> <% checked="check square"%>
+               <% else %>    <% checked="square"%>
+               <%end%>
              <%end%>
            <% end %>
+
            <% if  @route && route.id == @route.id %>
              <% selected="loading" %>
            <%end%>
            <%if editable=="false"%>
              <a href="/routes/<%= route.id %>">
-               <i class="square icon <%=selected%> <%=checked%>" style="color:<%= Level.find(route.level_id).color %>"></i>
+               <i class=" icon <%=selected%> <%=checked%>" style="color:<%= Level.find(route.level_id).color %>"></i>
              </a>
            <%else%>
-               <i class="square icon <%=selected%> <%=checked%>" style="color:<%= Level.find(route.level_id).color %>"></i>
+               <i class=" icon <%=selected%> <%=checked%>" style="color:<%= Level.find(route.level_id).color %>"></i>
            <%end%>
       </div>
     <%end%>
   <%end%>
 </div>
+
+
+
