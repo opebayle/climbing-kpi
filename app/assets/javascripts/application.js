@@ -24,6 +24,15 @@ document.addEventListener("turbolinks:load", function() {
 
   // $('table').tablesort()
 
+
+  $('#picture').click(function(){
+    $('.ui.modal')
+      .modal('setting', 'transition', 'vertical flip')
+      .modal('show')
+      ;
+  });
+
+
   $('#filter').click(function (){
 
     versus_value = $('#versus')['0'].value

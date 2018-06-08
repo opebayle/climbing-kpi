@@ -57,7 +57,7 @@
       </div>
 
       <div class="image">
-        <%= image_tag @route.image.url(:medium) %>
+        <%= image_tag @route.image.url(:medium), :id => "picture" %>
       </div>
 
 
@@ -94,11 +94,8 @@
         </table>
 
       </div>
-
-
     </div>
   </div>
-
 
   <div class="ui column">
     <%= render partial:"routes/map",
@@ -106,4 +103,19 @@
               editable:"false"} %>
   </div>
 </div>
+
+
+  <div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">
+      #<%=@route.id%> 
+      <%= @route.name %>
+    </div>
+    <div class="image content">
+      <div class="ui image">
+        <%= image_tag @route.image.url(:medium) %>
+      </div>
+    </div>
+  </div> 
+
 
